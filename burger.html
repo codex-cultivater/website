@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-N-Out Burger | Fresh. Never Frozen. Always Legendary.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Oswald:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Brand Colors */
+            --brand-red: #DA291C;
+            --brand-yellow: #FFC72C;
+            --brand-white: #FFFFFF;
+            --brand-navy: #003087;
+            --brand-black: #111111;
+            --brand-gray: #f5f5f5;
+
+            /* Spacing System */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+
+            /* Typography */
+            --font-head: 'Oswald', sans-serif;
+            --font-body: 'Lato', sans-serif;
+
+            /* Utilities */
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--brand-black);
+            line-height: 1.6;
+            background-color: var(--brand-white);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ----- BUTTONS ----- */
+        .btn {
+            display: inline-block;
+            padding: var(--space-md) var(--space-lg);
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn-red {
+            background-color: var(--brand-red);
+            color: var(--brand-white);
+        }
+
+        .btn-red:hover {
+            background-color: #b52016;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(218, 41, 28, 0.3);
+        }
+
+        .btn-yellow-outline {
+            background-color: transparent;
+            color: var(--brand-yellow);
+            border: 2px solid var(--brand-yellow);
+        }
+
+        .btn-yellow-outline:hover {
+            background-color: var(--brand-yellow);
+            color: var(--brand-navy);
+            transform: translateY(-2px);
+        }
+
+        .btn-yellow {
+            background-color: var(--brand-yellow);
+            color: var(--brand-black);
+        }
+
+        .btn-yellow:hover {
+            background-color: #e6b122;
+            transform: translateY(-2px);
+        }
+
+        /* ----- 1. STICKY NAVIGATION BAR ----- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--brand-white);
+            padding: var(--space-md) 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: var(--space-sm) 5%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--brand-red);
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--brand-yellow);
+            -webkit-text-stroke: 1px var(--brand-red);
+            margin-left: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+
+        .nav-links a.nav-item {
+            font-family: var(--font-head);
+            font-weight: 500;
+            font-size: 1.1rem;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a.nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--brand-yellow);
+            transition: var(--transition);
+        }
+
+        .nav-links a.nav-item:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--brand-navy);
+        }
+
+        /* ----- 2. HERO SECTION ----- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: calc(var(--space-xl) * 2) 5% var(--space-xl);
+            /* Radial halftone dot overlay + Red-to-Navy diagonal gradient */
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 2px, transparent 2px),
+                linear-gradient(135deg, var(--brand-red) 0%, var(--brand-navy) 100%);
+            background-size: 20px 20px, 100% 100%;
+            background-color: var(--brand-navy);
+            color: var(--brand-white);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            margin-bottom: var(--space-md);
+            animation: slideInLeft 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            margin-bottom: var(--space-xl);
+            animation: fadeIn 1s ease 0.5s forwards;
+            opacity: 0;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: var(--space-md);
+            animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .hero-badge {
+            position: absolute;
+            right: 10%;
+            top: 25%;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: var(--brand-yellow);
+            color: var(--brand-navy);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: var(--font-head);
+            padding: var(--space-md);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 6px solid var(--brand-white);
+            transform: rotate(15deg);
+            animation: fadeInBadge 1s ease 1s forwards, float 4s ease-in-out infinite 1s;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        .hero-badge span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .hero-badge small {
+            font-size: 0.9rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        /* Hero Animations */
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInBadge {
+            to {
+                opacity: 1;
+                transform: rotate(15deg);
+            }
+        }
+
+        @keyframes bounceIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(15deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(18deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(15deg);
+            }
+        }
+
+        /* ----- 3. MENU SECTION ----- */
+        .menu {
+            padding: var(--space-xl) 5%;
+            background-color: var(--brand-gray);
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: var(--brand-navy);
+            margin-bottom: var(--space-xl);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background-color: var(--brand-yellow);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .menu-card {
+            background-color: var(--brand-white);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border-bottom: 4px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            border-bottom-color: var(--brand-red);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-icon {
+            font-size: 4.5rem;
+            margin-bottom: var(--space-md);
+            display: block;
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-navy);
+            margin-bottom: var(--space-sm);
+        }
+
+        .menu-card p {
+            color: #555;
+            margin-bottom: var(--space-md);
+            flex-grow: 1;
+        }
+
+        .menu-card .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--brand-red);
+            display: block;
+            margin-bottom: var(--space-md);
+        }
+
+        .menu-card .btn {
+            width: 100%;
+        }
+
+        .secret-menu-banner {
+            background-color: var(--brand-yellow);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255, 199, 44, 0.4);
+            animation: pulse 2s infinite;
+            cursor: pointer;
+            border: 2px solid var(--brand-black);
+        }
+
+        .secret-menu-banner h4 {
+            color: var(--brand-black);
+            font-size: 1.5rem;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* ----- 4. QUALITY PROMISE SECTION ----- */
+        .quality {
+            padding: var(--space-xl) 5%;
+            background-color: var(--brand-white);
+        }
+
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .quality-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .quality-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quality-item-icon {
+            width: 90px;
+            height: 90px;
+            background-color: var(--brand-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto var(--space-md);
+            color: var(--brand-red);
+            border: 2px solid var(--brand-red);
+        }
+
+        .quality-item h3 {
+            font-size: 1.4rem;
+            color: var(--brand-navy);
+            margin-bottom: var(--space-sm);
+        }
+
+        .quality-item p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* ----- 5. "ANIMAL STYLE" FEATURE SECTION ----- */
+        .animal-style {
+            padding: var(--space-xl) 5%;
+            background-color: var(--brand-navy);
+            color: var(--brand-white);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+        }
+
+        .animal-content {
+            flex: 1;
+        }
+
+        .animal-content h2 {
+            font-size: 3.5rem;
+            color: var(--brand-yellow);
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .animal-content p {
+            font-size: 1.3rem;
+            margin-bottom: var(--space-lg);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .animal-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-lg) 0;
+        }
+
+        .burger-wrapper {
+            background-color: var(--brand-white);
+            width: 350px;
+            height: 350px;
+            border-radius: 15px;
+            transform: rotate(-5deg);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: -15px 15px 0 var(--brand-red);
+            border: 3px dashed #ccc;
+        }
+
+        .burger-wrapper::before {
+            content: '🍔';
+            font-size: 10rem;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        .burger-badge {
+            position: absolute;
+            bottom: -25px;
+            right: -25px;
+            background-color: var(--brand-yellow);
+            color: var(--brand-navy);
+            padding: var(--space-sm) var(--space-md);
+            font-family: var(--font-head);
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 30px;
+            transform: rotate(10deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--brand-black);
+        }
+
+        /* ----- 6. LOCATIONS SECTION ----- */
+        .locations {
+            padding: var(--space-xl) 5%;
+            background-color: var(--brand-gray);
+            text-align: center;
+        }
+
+        .location-search {
+            max-width: 600px;
+            margin: 0 auto var(--space-xl);
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .location-search input {
+            flex: 1;
+            padding: var(--space-md);
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .location-search input:focus {
+            border-color: var(--brand-red);
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+            text-align: left;
+        }
+
+        .location-card {
+            background-color: var(--brand-white);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border-top: 6px solid var(--brand-red);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .location-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-card h3 {
+            font-size: 1.6rem;
+            color: var(--brand-navy);
+            margin-bottom: var(--space-sm);
+        }
+
+        .location-card p {
+            color: #555;
+            margin-bottom: var(--space-sm);
+        }
+
+        .location-card .hours {
+            font-size: 0.95rem;
+            color: #777;
+            margin-bottom: var(--space-md);
+            background-color: var(--brand-gray);
+            padding: var(--space-sm);
+            border-radius: 4px;
+        }
+
+        .location-card .btn {
+            padding: var(--space-sm) var(--space-md);
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        /* ----- 7. CAREERS / CULTURE SECTION ----- */
+        .careers {
+            padding: var(--space-xl) 5%;
+            background-color: var(--brand-yellow);
+            text-align: center;
+            color: var(--brand-navy);
+        }
+
+        .careers h2 {
+            font-size: 3.5rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .careers p {
+            max-width: 800px;
+            margin: 0 auto var(--space-xl);
+            font-size: 1.3rem;
+            color: var(--brand-black);
+            font-weight: 700;
+        }
+
+        .career-stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .stat-item {
+            background-color: var(--brand-white);
+            color: var(--brand-navy);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: 50px;
+            font-family: var(--font-head);
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--brand-black);
+        }
+
+        /* ----- 8. TESTIMONIALS SECTION ----- */
+        .testimonials {
+            padding: var(--space-xl) 5%;
+            background-color: var(--brand-white);
+            text-align: center;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+
+        .testimonial-card {
+            background-color: #fafafa;
+            padding: var(--space-lg);
+            border-radius: 12px;
+            border-left: 5px solid var(--brand-red);
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .stars {
+            color: var(--brand-yellow);
+            font-size: 1.4rem;
+            margin-bottom: var(--space-sm);
+            text-shadow: 1px 1px 0 #ccc;
+        }
+
+        .quote {
+            font-size: 1.15rem;
+            font-style: italic;
+            margin-bottom: var(--space-md);
+            color: var(--brand-black);
+            font-weight: 700;
+        }
+
+        .author {
+            font-family: var(--font-head);
+            font-weight: 700;
+            color: var(--brand-navy);
+            font-size: 1.1rem;
+        }
+
+        /* ----- 9. NEWSLETTER CTA BANNER ----- */
+        .newsletter {
+            padding: var(--space-xl) 5%;
+            background: linear-gradient(135deg, var(--brand-red) 0%, #a31d14 100%);
+            color: var(--brand-white);
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 3rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .newsletter p {
+            margin-bottom: var(--space-lg);
+            font-size: 1.2rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: var(--space-md);
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* ----- 10. FOOTER ----- */
+        footer {
+            background-color: var(--brand-navy);
+            color: var(--brand-white);
+            padding: var(--space-xl) 5% var(--space-md);
+            border-top: 6px solid var(--brand-red);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+
+        .footer-col h4 {
+            color: var(--brand-yellow);
+            margin-bottom: var(--space-md);
+            font-size: 1.4rem;
+        }
+
+        .footer-col ul li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-col ul li a {
+            color: #ddd;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--brand-white);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--brand-red);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-bottom p {
+            color: #bbb;
+            font-size: 0.95rem;
+        }
+
+        .footer-tagline {
+            color: var(--brand-yellow);
+            font-family: var(--font-head);
+            font-size: 1rem;
+            margin-top: var(--space-sm);
+            letter-spacing: 1px;
+        }
+
+        /* ----- TOAST NOTIFICATION ----- */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--brand-navy);
+            color: var(--brand-white);
+            padding: 15px 25px;
+            border-radius: 8px;
+            border-left: 6px solid var(--brand-yellow);
+            font-family: var(--font-head);
+            font-size: 1.2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* ----- RESPONSIVE BREAKPOINTS ----- */
+        @media (max-width: 1024px) {
+
+            .menu-grid,
+            .quality-grid,
+            .location-grid,
+            .testimonial-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--brand-white);
+                flex-direction: column;
+                padding: var(--space-md) 0;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-badge {
+                display: none;
+            }
+
+            .animal-style {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .location-search {
+                flex-direction: column;
+            }
+
+            .location-search button,
+            .newsletter-form button,
+            .newsletter-form input {
+                border-radius: 4px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form input {
+                margin-bottom: var(--space-sm);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .hero-btns .btn {
+                width: 100%;
+            }
+
+            .quality-grid,
+            .location-grid,
+            .testimonial-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .burger-wrapper {
+                width: 280px;
+                height: 280px;
+            }
+
+            .burger-wrapper::before {
+                font-size: 7rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. Sticky Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">IN-N-OUT<span>®</span></a>
+        <div class="nav-links">
+            <a href="#menu" class="nav-item">Menu</a>
+            <a href="#locations" class="nav-item">Locations</a>
+            <a href="#quality" class="nav-item">Quality</a>
+            <a href="#careers" class="nav-item">Careers</a>
+            <a href="#" class="btn btn-red btn-order">Order Now</a>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">☰</button>
+    </nav>
+
+    <!-- 2. Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fresh. Never Frozen. Always Legendary.</h1>
+            <p>Made to order, every time — because you deserve nothing less.</p>
+            <div class="hero-btns">
+                <a href="#" class="btn btn-red btn-order">Order Now</a>
+                <a href="#menu" class="btn btn-yellow-outline">See Our Menu</a>
+            </div>
+        </div>
+        <div class="hero-badge">
+            <span>Est. 1948</span>
+            <small>Baldwin Park, CA</small>
+        </div>
+    </section>
+
+    <!-- 3. Menu Section -->
+    <section id="menu" class="menu">
+        <h2 class="section-title">The Menu. Simple. Perfect.</h2>
+
+        <div class="menu-grid">
+            <div class="menu-card">
+                <span class="menu-icon">🍔</span>
+                <h3>Double-Double®</h3>
+                <p>Two 100% pure beef patties, hand-leafed lettuce, tomato, spread, two slices of American cheese, with
+                    or without onions.</p>
+                <span class="price">$5.90</span>
+                <button class="btn btn-red btn-order">Add to Order</button>
+            </div>
+
+            <div class="menu-card">
+                <span class="menu-icon">🍔</span>
+                <h3>Cheeseburger</h3>
+                <p>100% pure beef patty, lettuce, tomato, spread, one slice of American cheese, with or without onions.
+                </p>
+                <span class="price">$3.85</span>
+                <button class="btn btn-red btn-order">Add to Order</button>
+            </div>
+
+            <div class="menu-card">
+                <span class="menu-icon">🍔</span>
+                <h3>Hamburger</h3>
+                <p>100% pure beef patty, lettuce, tomato, spread, with or without onions on a freshly baked bun.</p>
+                <span class="price">$3.30</span>
+                <button class="btn btn-red btn-order">Add to Order</button>
+            </div>
+
+            <div class="menu-card">
+                <span class="menu-icon">🍟</span>
+                <h3>French Fries</h3>
+                <p>Fresh, hand-cut potatoes prepared in 100% cholesterol-free vegetable oil.</p>
+                <span class="price">$2.30</span>
+                <button class="btn btn-red btn-order">Add to Order</button>
+            </div>
+
+            <div class="menu-card">
+                <span class="menu-icon">🥤</span>
+                <h3>Chocolate Shake</h3>
+                <p>Made with real ice cream. Also available in Vanilla and Strawberry.</p>
+                <span class="price">$2.85</span>
+                <button class="btn btn-red btn-order">Add to Order</button>
+            </div>
+
+            <div class="menu-card">
+                <span class="menu-icon">🍋</span>
+                <h3>Lemonade</h3>
+                <p>Refreshing, ice-cold lemonade made from real lemons.</p>
+                <span class="price">$2.10</span>
+                <button class="btn btn-red btn-order">Add to Order</button>
+            </div>
+        </div>
+
+        <div class="secret-menu-banner btn-order">
+            <h4>Psst... Ask about our Secret Menu 🤫</h4>
+        </div>
+    </section>
+
+    <!-- 4. Quality Promise Section -->
+    <section id="quality" class="quality">
+        <h2 class="section-title" style="text-align: center; width: 100%; margin-bottom: var(--space-xl);">Our Quality
+            Promise</h2>
+        <div class="quality-grid">
+            <div class="quality-item">
+                <div class="quality-item-icon">🥩</div>
+                <h3>Fresh, Never Frozen</h3>
+                <p>100% pure beef, never frozen, ever. We control the whole process.</p>
+            </div>
+            <div class="quality-item">
+                <div class="quality-item-icon">🥬</div>
+                <h3>Whole Ingredients</h3>
+                <p>Lettuce hand-leafed. Tomatoes hand-cut. Always prepared fresh daily.</p>
+            </div>
+            <div class="quality-item">
+                <div class="quality-item-icon">🧑‍🍳</div>
+                <h3>Made to Order</h3>
+                <p>Every burger is built fresh when you order it. No heat lamps here.</p>
+            </div>
+            <div class="quality-item">
+                <div class="quality-item-icon">🌴</div>
+                <h3>California Roots</h3>
+                <p>Family owned since 1948. No franchises. Ever. Quality stays in the family.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. "Animal Style" Feature Section -->
+    <section class="animal-style">
+        <div class="animal-content">
+            <h2>Have You Gone Animal Style?</h2>
+            <p>Mustard-cooked patty, extra spread, grilled onions, pickles — once you go Animal Style, there's no going
+                back. It's the ultimate upgrade to your favorite burger.</p>
+            <button class="btn btn-yellow btn-order">Explore Secret Menu</button>
+        </div>
+        <div class="animal-visual">
+            <div class="burger-wrapper">
+                <div class="burger-badge">🍔 Animal Style</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Locations Section -->
+    <section id="locations" class="locations">
+        <h2 class="section-title">Find Your Nearest In-N-Out</h2>
+
+        <div class="location-search">
+            <input type="text" placeholder="Enter Zip Code or City, State">
+            <button class="btn btn-red btn-order">Find Locations</button>
+        </div>
+
+        <div class="location-grid">
+            <div class="location-card">
+                <h3>Los Angeles, CA</h3>
+                <p>9149 S. Sepulveda Blvd.</p>
+                <div class="hours">
+                    Sun-Thurs: 10:30am - 1:00am<br>
+                    Fri-Sat: 10:30am - 1:30am
+                </div>
+                <button class="btn btn-yellow-outline btn-order">Get Directions</button>
+            </div>
+
+            <div class="location-card">
+                <h3>Las Vegas, NV</h3>
+                <p>2900 W. Sahara Ave.</p>
+                <div class="hours">
+                    Sun-Thurs: 10:30am - 1:00am<br>
+                    Fri-Sat: 10:30am - 1:30am
+                </div>
+                <button class="btn btn-yellow-outline btn-order">Get Directions</button>
+            </div>
+
+            <div class="location-card">
+                <h3>Phoenix, AZ</h3>
+                <p>2750 W. Peoria Ave.</p>
+                <div class="hours">
+                    Sun-Thurs: 10:30am - 1:00am<br>
+                    Fri-Sat: 10:30am - 1:30am
+                </div>
+                <button class="btn btn-yellow-outline btn-order">Get Directions</button>
+            </div>
+
+            <div class="location-card">
+                <h3>Dallas, TX</h3>
+                <p>7909 LBJ Freeway</p>
+                <div class="hours">
+                    Sun-Thurs: 10:30am - 1:00am<br>
+                    Fri-Sat: 10:30am - 1:30am
+                </div>
+                <button class="btn btn-yellow-outline btn-order">Get Directions</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Careers / Culture Section -->
+    <section id="careers" class="careers">
+        <h2>Grow With Us</h2>
+        <p>In-N-Out Burger offers some of the best wages in the industry, real advancement, and a team that feels like
+            family.</p>
+
+        <div class="career-stats">
+            <div class="stat-item">💰 Starting at $20/hr+</div>
+            <div class="stat-item">📈 Promote From Within</div>
+            <div class="stat-item">❤️ Family Culture Since 1948</div>
+        </div>
+
+        <button class="btn btn-red btn-order">View Open Positions</button>
+    </section>
+
+    <!-- 8. Testimonials Section -->
+    <section class="testimonials">
+        <h2 class="section-title">Straight from Our Fans</h2>
+
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"The absolute best fast food burger you can get. Quality is always consistent and the
+                    staff is incredibly friendly!"</p>
+                <p class="author">Sarah M. — Los Angeles, CA</p>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"I always order my Double-Double Animal Style. Nothing else compares to it. It's a West
+                    Coast legend for a reason."</p>
+                <p class="author">Mike T. — Las Vegas, NV</p>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"The fries are so fresh and the milkshakes are perfectly thick. It's my mandatory stop
+                    whenever I visit California."</p>
+                <p class="author">Jessica R. — Austin, TX</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Newsletter / Loyalty CTA Banner -->
+    <section class="newsletter">
+        <h2>Be the First to Know</h2>
+        <p>Get news, secret menu drops, and exclusive updates straight to your inbox.</p>
+
+        <form id="newsletter-form" class="newsletter-form">
+            <input type="email" placeholder="Enter your email address" required>
+            <button type="submit" class="btn btn-yellow">Join Now</button>
+        </form>
+    </section>
+
+    <!-- 10. Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>About Us</h4>
+                <ul>
+                    <li><a href="#">Our History</a></li>
+                    <li><a href="#">The Snyder Family</a></li>
+                    <li><a href="#">Foundation</a></li>
+                    <li><a href="#">Merchandise</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="#">Not So Secret Menu</a></li>
+                    <li><a href="#">Quality Ingredients</a></li>
+                    <li><a href="#">Nutrition Info</a></li>
+                    <li><a href="#">Allergens</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Locations</h4>
+                <ul>
+                    <li><a href="#">Store Locator</a></li>
+                    <li><a href="#">New Openings</a></li>
+                    <li><a href="#">Cookout Trucks</a></li>
+                    <li><a href="#">Company Store</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="Instagram">📸</a>
+                    <a href="#" aria-label="TikTok">🎵</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 In-N-Out Burger, Ltd. All rights reserved.</p>
+            <p class="footer-tagline">Quality you can taste. Values you can trust.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sticky Nav
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile Menu Toggle
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close mobile menu when a link is clicked
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                    }
+                });
+            });
+
+            // Toast Notification System
+            const toastContainer = document.getElementById('toast-container');
+
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.classList.add('toast');
+                toast.textContent = message;
+                toastContainer.appendChild(toast);
+
+                // Trigger reflow for animation
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 10);
+
+                // Remove toast after delay
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 400); // Wait for transition to finish
+                }, 3000);
+            }
+
+            // Add click events to all order buttons
+            const orderButtons = document.querySelectorAll('.btn-order');
+            orderButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showToast("Added to your order! 🍔");
+                });
+            });
+
+            // Newsletter submit
+            const newsletterForm = document.getElementById('newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    showToast("You're in! 🎉 Welcome to the In-N-Out family.");
+                    newsletterForm.reset();
+                });
+            }
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animateElements = document.querySelectorAll('.quality-item, .testimonial-card');
+            animateElements.forEach((el, index) => {
+                // Determine stagger based on grid position
+                let delayIndex = index;
+                if (el.classList.contains('quality-item')) {
+                    delayIndex = index % 4;
+                } else if (el.classList.contains('testimonial-card')) {
+                    delayIndex = index % 3;
+                }
+
+                el.style.transitionDelay = `${delayIndex * 0.15}s`;
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>
